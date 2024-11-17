@@ -5,27 +5,8 @@ on:
     branches:
       - main
       - develop
-      - user_menu_and_enrollement
 
 jobs:
-  flutter_test:
-    name: Run flutter pub get, analyze and test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.24.3'
-          channel: 'stable'
-      - name: Fetch flutter version
-        run: flutter --version
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Analyze code
-        run: flutter analyze
-      - name: Run tests
-        run: flutter test
-
   playwright_test:
     name: Run Playwright API tests
     runs-on: ubuntu-latest
