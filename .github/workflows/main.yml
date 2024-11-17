@@ -1,0 +1,40 @@
+name: Flutter PR Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  playwright_test:
+    name: Run Playwright API tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Set environment variables
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          URL: ${{ secrets.URL }}
+          VERSION_API: ${{ secrets.VERSION_API }}
+        run: echo "Environment variables set successfully."
+      - name: Install dependencies
+        working-directory: test/playwright
+        run: npm install
+      - name: Run Playwright tests
+        working-directory: test/playwright
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          URL: ${{ secrets.URL }}
+          VERSION_API: ${{ secrets.VERSION_API }}
+        run: npx playwright test
